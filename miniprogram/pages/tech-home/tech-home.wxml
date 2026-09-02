@@ -1,0 +1,120 @@
+<view class="tech-page yxt-page-with-tabbar">
+  <brand-image custom-class="tech-watermark" watermark="{{true}}" />
+
+  <!-- 顶部统计 -->
+  <view class="tech-hero">
+    <view class="tech-head">
+      <view>
+        <text class="tech-kicker">工作人员工作台</text>
+        <text class="tech-title">今日预约</text>
+      </view>
+      <text class="tech-date">{{todayLabel}}</text>
+    </view>
+    <view class="stats-section">
+      <view class="stat-item">
+        <text class="stat-num">{{stats.pending}}</text>
+        <text class="stat-label">待核销</text>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item">
+        <text class="stat-num">{{stats.completed}}</text>
+        <text class="stat-label">已核销</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 扫码按钮 -->
+  <view class="scan-section">
+    <van-button
+      type="primary"
+      size="large"
+      round
+      block
+      icon="scan"
+      bindtap="scanCode"
+      custom-class="scan-button"
+    >
+      扫码核销
+    </van-button>
+    <view class="scan-code-entry" bindtap="inputVerifyCode">输入 6 位核销码</view>
+    <view class="scan-helper">对准用户预约二维码，核销前先核对姓名和服务项目。</view>
+  </view>
+
+  <!-- 今日预约列表 -->
+  <view class="list-section">
+    <view class="section-title">
+      <text>预约清单</text>
+      <view class="section-actions">
+        <text class="section-link" bindtap="goRecords">核销记录</text>
+        <text class="section-subtitle">{{appointments.length}} 条</text>
+      </view>
+    </view>
+
+    <view class="appointment-list">
+      <view
+        class="appointment-item card"
+        wx:for="{{appointments}}"
+        wx:key="_id"
+      >
+        <view class="apt-header">
+          <text class="apt-services">{{item.service_names}}</text>
+          <text class="status-{{item.status}}">
+            {{item.status === 'pending' ? '待核销' : (item.status === 'cancelled' ? '已取消' : '已核销')}}
+          </text>
+        </view>
+        <view class="apt-info">
+          <view class="apt-row">
+            <van-icon name="clock-o" size="14" color="#999" />
+            <text>{{item.start_time}} - {{item.end_time}}</text>
+          </view>
+          <view class="apt-row">
+            <van-icon name="user-o" size="14" color="#999" />
+            <text>{{item.patient_name || '未知用户'}}</text>
+          </view>
+        </view>
+        <view class="apt-actions" wx:if="{{item.status === 'pending'}}">
+          <van-button
+            type="primary"
+            size="small"
+            round
+            custom-class="verify-button"
+            bindtap="verifyFromList"
+            data-id="{{item._id}}"
+          >
+            核销
+          </van-button>
+        </view>
+      </view>
+
+      <van-empty
+        wx:if="{{appointments.length === 0 && !loading}}"
+        description="今日暂无预约"
+        image="search"
+      />
+    </view>
+  </view>
+
+  <!-- 加载状态 -->
+  <van-loading
+    wx:if="{{loading}}"
+    class="loading"
+    type="spinner"
+    size="24"
+  >
+    加载中...
+  </van-loading>
+  <view class="yxt-lite-tabbar">
+    <navigator class="yxt-lite-tabbar-item" url="/pages/index/index" open-type="switchTab">
+      <van-icon name="wap-home-o" size="22" />
+      <text>首页</text>
+    </navigator>
+    <navigator class="yxt-lite-tabbar-item" url="/pages/booking/booking" open-type="switchTab">
+      <van-icon name="calendar-o" size="22" />
+      <text>服务</text>
+    </navigator>
+    <navigator class="yxt-lite-tabbar-item" url="/pages/mine/mine" open-type="switchTab">
+      <van-icon name="user-o" size="22" />
+      <text>我的</text>
+    </navigator>
+  </view>
+</view>

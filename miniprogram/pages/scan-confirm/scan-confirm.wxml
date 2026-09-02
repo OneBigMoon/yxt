@@ -1,0 +1,30 @@
+<view class="confirm-page yxt-page">
+  <brand-image custom-class="yxt-page-logo top" watermark="{{true}}" />
+
+  <view class="confirm-card yxt-card">
+    <van-icon
+      name="{{errorMessage ? 'close' : confirmed ? 'checked' : 'scan'}}"
+      size="64"
+      color="{{errorMessage ? '#ee0a24' : '#5a7846'}}"
+    />
+    <text class="title">{{pageTitle}}</text>
+    <text class="desc">{{pageDesc}}</text>
+
+    <van-loading wx:if="{{loading}}" color="#5a7846" size="32px">确认中...</van-loading>
+
+    <view class="session-hint" wx:if="{{!confirmed && sessionHint}}">
+      <text>操作尾号：{{sessionHint}}</text>
+      <text>如果你没有在电脑上主动发起操作，请立即取消。</text>
+    </view>
+
+    <text class="success-message" wx:if="{{confirmed}}">{{resultMessage}}</text>
+    <text class="error-message" wx:if="{{errorMessage}}">{{errorMessage}}</text>
+
+    <view class="action-bar" wx:if="{{!confirmed && !loading}}">
+      <button class="cancel-btn" bindtap="onCancel">取消</button>
+      <button class="confirm-btn" type="primary" bindtap="onConfirm">
+        {{errorMessage ? '重试确认' : '确认授权'}}
+      </button>
+    </view>
+  </view>
+</view>

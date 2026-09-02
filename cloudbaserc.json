@@ -1,0 +1,84 @@
+{
+  "envId": "yuyue-d0gdy87711d685d64",
+  "functionRoot": "cloudfunctions",
+  "functions": [
+    {
+      "name": "admin",
+      "handler": "index.main",
+      "runtime": "Nodejs18.15",
+      "timeout": 30
+    },
+    {
+      "name": "login",
+      "handler": "index.main",
+      "runtime": "Nodejs18.15",
+      "timeout": 20
+    },
+    {
+      "name": "getServices",
+      "handler": "index.main",
+      "runtime": "Nodejs18.15",
+      "timeout": 20
+    },
+    {
+      "name": "getAvailableSlots",
+      "handler": "index.main",
+      "runtime": "Nodejs18.15",
+      "timeout": 20
+    },
+    {
+      "name": "checkAvailability",
+      "handler": "index.main",
+      "runtime": "Nodejs18.15",
+      "timeout": 20
+    },
+    {
+      "name": "createAppointment",
+      "handler": "index.main",
+      "runtime": "Nodejs18.15",
+      "timeout": 30
+    },
+    {
+      "name": "cancelAppointment",
+      "handler": "index.main",
+      "runtime": "Nodejs18.15",
+      "timeout": 20
+    },
+    {
+      "name": "verifyAppointment",
+      "handler": "index.main",
+      "runtime": "Nodejs18.15",
+      "timeout": 20
+    },
+    {
+      "name": "getAppointments",
+      "handler": "index.main",
+      "runtime": "Nodejs18.15",
+      "timeout": 20
+    },
+    {
+      "name": "getMyAppointments",
+      "handler": "index.main",
+      "runtime": "Nodejs18.15",
+      "timeout": 20
+    },
+    {
+      "name": "getArticles",
+      "handler": "index.main",
+      "runtime": "Nodejs18.15",
+      "timeout": 20
+    },
+    {
+      "name": "getArticleDetail",
+      "handler": "index.main",
+      "runtime": "Nodejs18.15",
+      "timeout": 20
+    },
+    {
+      "name": "sendReminder",
+      "handler": "index.main",
+      "runtime": "Nodejs18.15",
+      "timeout": 60
+    }
+  ]
+}

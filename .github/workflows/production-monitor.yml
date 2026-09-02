@@ -1,0 +1,64 @@
+name: production-availability
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+    inputs:
+      force_failure:
+        description: Verify the configured failure notification path
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+env:
+  ADMIN_ENTRY_URL: ${{ vars.PRODUCTION_ADMIN_URL || 'https://yuyue-d0gdy87711d685d64-1373613778.ap-shanghai.app.tcloudbase.com/admin' }}
+  ADMIN_HEALTH_URL: ${{ vars.PRODUCTION_HEALTH_URL || 'https://yuyue-d0gdy87711d685d64-1373613778.ap-shanghai.app.tcloudbase.com/admin-health?action=health' }}
+
+jobs:
+  admin-entry:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Probe admin entry
+        shell: bash
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ inputs.force_failure }}" == "true" ]]; then
+            echo "Controlled failure requested"
+            exit 1
+          fi
+          response_file="$(mktemp)"
+          header_file="$(mktemp)"
+          trap 'rm -f "$response_file" "$header_file"' EXIT
+          curl --fail --silent --show-error --location --max-time 20 \
+            --dump-header "$header_file" \
+            --output "$response_file" \
+            "$ADMIN_ENTRY_URL"
+          grep --fixed-strings --quiet '<div id="app"></div>' "$response_file"
+          grep --ignore-case --quiet '^content-security-policy:' "$header_file"
+          grep --ignore-case --quiet '^permissions-policy: camera=(), geolocation=(), microphone=()' "$header_file"
+          grep --ignore-case --quiet '^referrer-policy: no-referrer' "$header_file"
+          grep --ignore-case --quiet '^strict-transport-security: max-age=31536000; includesubdomains' "$header_file"
+          grep --ignore-case --quiet '^x-content-type-options: nosniff' "$header_file"
+          grep --ignore-case --quiet '^x-frame-options: DENY' "$header_file"
+      - name: Probe function health and security headers
+        shell: bash
+        run: |
+          response_file="$(mktemp)"
+          header_file="$(mktemp)"
+          trap 'rm -f "$response_file" "$header_file"' EXIT
+          curl --fail --silent --show-error --location --max-time 20 \
+            --dump-header "$header_file" \
+            --output "$response_file" \
+            "$ADMIN_HEALTH_URL"
+          jq --exit-status '.status == "ok" and .service == "admin"' "$response_file" >/dev/null
+          grep --ignore-case --quiet '^cache-control: no-store' "$header_file"
+          grep --ignore-case --quiet '^content-security-policy:' "$header_file"
+          grep --ignore-case --quiet '^permissions-policy: camera=(), geolocation=(), microphone=()' "$header_file"
+          grep --ignore-case --quiet '^referrer-policy: no-referrer' "$header_file"
+          grep --ignore-case --quiet '^strict-transport-security: max-age=31536000; includesubdomains' "$header_file"
+          grep --ignore-case --quiet '^x-content-type-options: nosniff' "$header_file"
+          grep --ignore-case --quiet '^x-frame-options: DENY' "$header_file"

@@ -1,0 +1,157 @@
+<view class="index-page">
+  <brand-image custom-class="page-logo-watermark page-logo-watermark--top" watermark="{{true}}" />
+  <brand-image custom-class="page-logo-watermark page-logo-watermark--bottom" watermark="{{true}}" />
+
+  <view class="notice-bar" wx:if="{{closureNotice}}">
+    <van-notice-bar
+      left-icon="info-o"
+      text="{{closureNotice}}"
+      background="#fff3e0"
+      color="#ff976a"
+    />
+  </view>
+
+  <block wx:for="{{homeModules}}" wx:key="key" wx:for-item="module">
+  <view class="business-card" wx:if="{{module.key === 'business_status'}}">
+    <brand-image custom-class="business-card-mark" />
+    <view class="business-card-head">
+      <view>
+        <text class="business-title">营业状态</text>
+        <text class="business-subtitle">预约前先看今日与明日安排</text>
+      </view>
+      <button
+        wx:if="{{clinicInfo.latitude && clinicInfo.longitude}}"
+        class="business-nav-btn"
+        bindtap="openLocation"
+        hover-class="business-nav-btn--active"
+        aria-label="导航到店"
+      >
+        <view class="business-nav-icon">
+          <van-icon name="location" size="14" color="#5a7846" />
+        </view>
+        <text>导航</text>
+      </button>
+      <button
+        wx:if="{{clinicInfo.phone}}"
+        class="business-nav-btn"
+        bindtap="callStorePhone"
+        hover-class="business-nav-btn--active"
+        aria-label="联系门店"
+      >
+        <view class="business-nav-icon">
+          <van-icon name="phone-o" size="14" color="#5a7846" />
+        </view>
+        <text>联系门店</text>
+      </button>
+    </view>
+    <view class="store-sub-grid">
+      <view
+        class="business-status-item status-{{item.tone}}"
+        wx:for="{{businessStatusCards}}"
+        wx:key="label"
+      >
+        <view class="status-head">
+          <van-icon name="clock-o" size="18" color="{{item.iconColor}}" />
+          <text>{{item.label}}</text>
+        </view>
+        <text class="status-main">{{item.text}}</text>
+        <text class="status-sub">{{item.date}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section service-section" wx:if="{{module.key === 'recommended_services' && recommendedServices.length > 0}}">
+    <view class="section-title">
+      <view class="title-left"><view class="title-mark"></view><text class="title-text">推荐服务</text></view>
+      <text class="title-more" bindtap="goBooking">查看全部</text>
+    </view>
+    <view class="compact-grid">
+      <view class="compact-card" wx:for="{{recommendedServices}}" wx:key="_id" wx:for-item="service" bindtap="goBooking">
+        <van-icon name="orders-o" size="22" color="#5a7846" />
+        <text class="compact-title">{{service.name}}</text>
+        <text class="compact-desc">{{service.description}}</text>
+        <text class="compact-meta" wx:if="{{service.duration}}">约 {{service.duration}} 分钟</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section technician-section" wx:if="{{module.key === 'recommended_technicians' && recommendedTechnicians.length > 0}}">
+    <view class="section-title">
+      <view class="title-left">
+        <view class="title-mark"></view>
+        <text class="title-text">推荐顾问</text>
+      </view>
+      <text class="title-more">服务团队</text>
+    </view>
+    <view class="technician-list">
+      <view class="technician-card" wx:for="{{recommendedTechnicians}}" wx:key="name">
+        <view class="technician-head">
+          <view class="technician-avatar"><van-icon name="user-o" size="22" color="#5a7846" /></view>
+          <text class="technician-name">{{item.name}}</text>
+        </view>
+        <text class="technician-specialty">{{item.specialty}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section feature-section" wx:if="{{module.key === 'articles'}}">
+    <view class="section-title">
+      <view class="title-left">
+        <view class="title-mark"></view>
+        <text class="title-text">资讯中心</text>
+      </view>
+      <text class="title-more" wx:if="{{articles.length > 0}}">最新 · 下滑加载</text>
+    </view>
+
+    <view class="feature-list" wx:if="{{articles.length > 0}}">
+      <view
+        class="feature-card"
+        wx:for="{{articles}}"
+        wx:key="_id"
+        bindtap="viewArticle"
+        data-id="{{item._id}}"
+      >
+        <view class="feature-cover-wrap">
+          <image
+            class="feature-cover"
+            src="{{item.cover_image || '/images/default-article.png'}}"
+            mode="aspectFill"
+            binderror="onCoverError"
+            data-index="{{index}}"
+          />
+        </view>
+        <view class="feature-caption">
+          <text class="feature-title">{{item.title}}</text>
+          <text class="feature-summary">{{item.summary || '资讯文章'}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="article-empty-card" wx:if="{{articles.length === 0 && !loading}}">
+      <brand-image custom-class="article-empty-mark" />
+      <view>
+        <text class="article-empty-title">暂无最新资讯</text>
+        <text class="article-empty-desc">企业动态与服务信息将在此发布。</text>
+      </view>
+    </view>
+
+    <view class="article-load-state" wx:if="{{articles.length > 0}}">
+      <van-loading wx:if="{{articleLoadingMore}}" type="spinner" size="20">正在加载更多</van-loading>
+      <text wx:elif="{{!articleHasMore}}">已经到底了</text>
+      <text wx:else>继续下拉加载更多</text>
+    </view>
+  </view>
+
+  </block>
+
+  <van-loading
+    wx:if="{{loading}}"
+    class="loading"
+    type="spinner"
+    size="24"
+  >
+    加载中...
+  </van-loading>
+
+  <view class="technology-footer" wx:if="{{!loading}}">技术由营生科贸提供</view>
+</view>

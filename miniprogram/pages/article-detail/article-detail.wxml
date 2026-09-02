@@ -1,0 +1,48 @@
+<view class="article-detail-page yxt-page yxt-page-with-tabbar">
+  <brand-image custom-class="yxt-page-logo top" watermark="{{true}}" />
+
+  <view class="article-hero">
+    <image
+      class="article-cover"
+      src="{{article.cover_image || '/images/default-article.png'}}"
+      mode="aspectFill"
+    />
+    <view class="article-shade"></view>
+    <view class="article-header">
+      <text class="article-kicker">资讯文章</text>
+      <text class="article-title">{{article.title}}</text>
+      <text class="article-time">{{article.created_at}}</text>
+    </view>
+  </view>
+
+  <view class="article-body-card yxt-card" wx:if="{{article.summary}}">
+    <text>{{article.summary}}</text>
+  </view>
+
+  <view class="article-body yxt-card">
+    <rich-text nodes="{{article.content}}"></rich-text>
+  </view>
+
+  <van-loading
+    wx:if="{{loading}}"
+    class="loading"
+    type="spinner"
+    size="24"
+  >
+    加载中...
+  </van-loading>
+  <view class="yxt-lite-tabbar">
+    <navigator class="yxt-lite-tabbar-item active" url="/pages/index/index" open-type="switchTab">
+      <van-icon name="wap-home-o" size="22" />
+      <text>首页</text>
+    </navigator>
+    <navigator class="yxt-lite-tabbar-item " url="/pages/booking/booking" open-type="switchTab">
+      <van-icon name="calendar-o" size="22" />
+      <text>服务</text>
+    </navigator>
+    <navigator class="yxt-lite-tabbar-item " url="/pages/mine/mine" open-type="switchTab">
+      <van-icon name="user-o" size="22" />
+      <text>我的</text>
+    </navigator>
+  </view>
+</view>

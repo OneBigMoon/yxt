@@ -1,0 +1,67 @@
+<view class="my-appointments-page yxt-page yxt-page-with-tabbar">
+  <brand-image custom-class="yxt-page-logo top" watermark="{{true}}" />
+
+  <view class="record-head">
+    <text class="yxt-section-title">预约记录</text>
+    <text class="yxt-section-desc">查看待到店、已完成和已取消的预约</text>
+  </view>
+
+  <van-tabs active="{{activeTab}}" bind:change="onTabChange" color="#5a7846" line-width="60rpx">
+    <van-tab title="待核销" name="pending"></van-tab>
+    <van-tab title="已完成" name="completed"></van-tab>
+    <van-tab title="已取消" name="cancelled"></van-tab>
+  </van-tabs>
+
+  <view class="appointment-list">
+    <view
+      class="appointment-item yxt-card"
+      wx:for="{{appointments}}"
+      wx:key="_id"
+      bindtap="viewDetail"
+      data-id="{{item._id}}"
+    >
+      <view class="apt-header">
+        <text class="apt-services">{{item.service_names}}</text>
+        <text class="status-{{item.status}}">
+          {{item.status === 'pending' ? '待核销' : item.status === 'completed' ? '已完成' : '已取消'}}
+        </text>
+      </view>
+      <view class="apt-info">
+        <view class="apt-row">
+          <van-icon name="clock-o" size="16" color="#7a7165" />
+          <text>{{item.date}} {{item.start_time}}-{{item.end_time}}</text>
+        </view>
+        <view class="apt-row" wx:if="{{item.technician_name}}">
+          <van-icon name="user-o" size="16" color="#7a7165" />
+          <text>工作人员：{{item.technician_name}}</text>
+        </view>
+      </view>
+      <view class="apt-foot">
+        <text>点击查看详情</text>
+        <van-icon name="arrow" size="14" color="#d8d1c7" />
+      </view>
+    </view>
+
+    <van-empty
+      wx:if="{{appointments.length === 0 && !loading}}"
+      description="暂无预约记录"
+      image="search"
+    />
+  </view>
+
+  <van-loading wx:if="{{loading}}" class="loading" type="spinner" size="24">加载中...</van-loading>
+  <view class="yxt-lite-tabbar">
+    <navigator class="yxt-lite-tabbar-item " url="/pages/index/index" open-type="switchTab">
+      <van-icon name="wap-home-o" size="22" />
+      <text>首页</text>
+    </navigator>
+    <navigator class="yxt-lite-tabbar-item " url="/pages/booking/booking" open-type="switchTab">
+      <van-icon name="calendar-o" size="22" />
+      <text>服务</text>
+    </navigator>
+    <navigator class="yxt-lite-tabbar-item active" url="/pages/mine/mine" open-type="switchTab">
+      <van-icon name="user-o" size="22" />
+      <text>我的</text>
+    </navigator>
+  </view>
+</view>

@@ -1,0 +1,12 @@
+{
+  "envId": "yuyue-d0gdy87711d685d64",
+  "functionRoot": ".",
+  "functions": [
+    {
+      "name": "admin",
+      "handler": "index.main",
+      "runtime": "Nodejs18.15",
+      "timeout": 30
+    }
+  ]
+}

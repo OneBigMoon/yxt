@@ -1,0 +1,56 @@
+<view class="profile-page yxt-page yxt-page-with-tabbar yxt-page-with-action">
+  <brand-image custom-class="yxt-page-logo top" watermark="{{true}}" />
+
+  <view class="profile-header">
+    <text class="profile-title">客户资料</text>
+    <text class="profile-subtitle">头像和昵称为选填，不影响预约</text>
+  </view>
+
+  <view class="profile-form yxt-card">
+    <view class="avatar-section">
+      <view class="input-label">头像</view>
+      <button class="avatar-btn" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+        <image class="avatar-img" src="{{avatarUrl || '/images/default-avatar.png'}}" mode="aspectFill" />
+        <text class="avatar-tip">点击更换头像</text>
+      </button>
+    </view>
+
+    <view class="input-section">
+      <view class="input-label">昵称</view>
+      <input
+        class="nickname-input"
+        type="nickname"
+        maxlength="32"
+        placeholder="昵称选填"
+        value="{{nickName}}"
+        bindinput="onNicknameChange"
+      />
+    </view>
+  </view>
+
+  <view class="submit-section">
+    <van-button
+      type="primary"
+      round
+      block
+      bindtap="onSubmit"
+      loading="{{loading}}"
+    >
+      保存资料
+    </van-button>
+  </view>
+  <view class="yxt-lite-tabbar">
+    <navigator class="yxt-lite-tabbar-item " url="/pages/index/index" open-type="switchTab">
+      <van-icon name="wap-home-o" size="22" />
+      <text>首页</text>
+    </navigator>
+    <navigator class="yxt-lite-tabbar-item " url="/pages/booking/booking" open-type="switchTab">
+      <van-icon name="calendar-o" size="22" />
+      <text>服务</text>
+    </navigator>
+    <navigator class="yxt-lite-tabbar-item active" url="/pages/mine/mine" open-type="switchTab">
+      <van-icon name="user-o" size="22" />
+      <text>我的</text>
+    </navigator>
+  </view>
+</view>

@@ -1,0 +1,103 @@
+.records-page {
+  padding: 32rpx;
+  padding-bottom: 220rpx;
+  box-sizing: border-box;
+}
+
+.records-hero {
+  padding: 34rpx;
+  margin-bottom: 30rpx;
+}
+
+.records-kicker,
+.records-title,
+.records-desc {
+  display: block;
+}
+
+.records-kicker {
+  color: #5a7846;
+  font-size: 25rpx;
+  font-weight: 700;
+}
+
+.records-title {
+  margin-top: 10rpx;
+  color: #231f1a;
+  font-size: 40rpx;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.records-desc {
+  margin-top: 12rpx;
+  color: #7a7165;
+  font-size: 27rpx;
+  line-height: 1.45;
+}
+
+.section-title {
+  position: relative;
+  z-index: 1;
+  font-size: 34rpx;
+  font-weight: 700;
+  color: #231f1a;
+  margin-bottom: 20rpx;
+}
+
+.record-list {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 18rpx;
+}
+
+.record-item {
+  padding: 28rpx;
+}
+
+.record-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 18rpx;
+  margin-bottom: 18rpx;
+}
+
+.record-services {
+  flex: 1;
+  min-width: 0;
+  font-size: 32rpx;
+  font-weight: 700;
+  line-height: 1.35;
+  color: #231f1a;
+}
+
+.record-time {
+  flex-shrink: 0;
+  font-size: 24rpx;
+  color: #5a7846;
+}
+
+.record-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.record-row {
+  display: flex;
+  align-items: center;
+  font-size: 28rpx;
+  color: #6d6358;
+  gap: 10rpx;
+}
+
+.loading {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  padding: 40rpx;
+}

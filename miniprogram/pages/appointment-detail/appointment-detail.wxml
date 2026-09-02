@@ -1,0 +1,98 @@
+<view class="detail-page yxt-page yxt-page-with-tabbar yxt-page-with-action">
+  <brand-image custom-class="yxt-page-logo top" watermark="{{true}}" />
+
+  <!-- 预约信息 -->
+  <view class="info-section yxt-card">
+    <view class="info-header">
+      <text class="info-title">预约信息</text>
+      <text class="status-{{appointment.status}}">
+        {{appointment.status === 'pending' ? '待核销' : appointment.status === 'completed' ? '已完成' : '已取消'}}
+      </text>
+    </view>
+
+    <view class="info-list">
+      <view class="info-item">
+        <text class="info-label">服务项目</text>
+        <text class="info-value">{{appointment.service_names}}</text>
+      </view>
+      <view class="info-item">
+        <text class="info-label">预约日期</text>
+        <text class="info-value">{{appointment.date}}</text>
+      </view>
+      <view class="info-item">
+        <text class="info-label">预约时段</text>
+        <text class="info-value">{{appointment.start_time}} - {{appointment.end_time}}</text>
+      </view>
+      <view class="info-item">
+        <text class="info-label">总时长</text>
+        <text class="info-value">{{appointment.total_duration}} 分钟</text>
+      </view>
+      <view class="info-item" wx:if="{{appointment.technician_name}}">
+        <text class="info-label">服务人员</text>
+        <text class="info-value">{{appointment.technician_name}}</text>
+      </view>
+      <view class="info-item" wx:if="{{appointment.verified_at}}">
+        <text class="info-label">核销时间</text>
+        <text class="info-value">{{appointment.verified_at}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 核销码区域 -->
+  <view class="qr-section yxt-card" wx:if="{{appointment.status === 'pending'}}">
+    <view class="qr-title">出示预约二维码</view>
+    <image
+      wx:if="{{appointment.qr_code}}"
+      class="qr-code"
+      src="{{appointment.qr_code}}"
+      mode="aspectFit"
+      show-menu-by-longpress
+    ></image>
+    <view wx:else class="qr-fallback">
+      <text class="qr-fallback-title">二维码生成中</text>
+      <text class="qr-fallback-desc">可先出示下方 6 位核销码</text>
+    </view>
+    <view class="verify-code-card">
+      <text class="verify-code-label">6 位核销码</text>
+      <text class="verify-code">{{appointment.display_verify_code || '请刷新'}}</text>
+    </view>
+    <text class="qr-tip">到店后请向工作人员出示，完成核销</text>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-section" wx:if="{{appointment.status === 'pending'}}">
+    <van-button
+      type="danger"
+      round
+      block
+      bindtap="cancelAppointment"
+      loading="{{cancelling}}"
+    >
+      取消预约
+    </van-button>
+  </view>
+
+  <!-- 加载状态 -->
+  <van-loading
+    wx:if="{{loading}}"
+    class="loading"
+    type="spinner"
+    size="24"
+  >
+    加载中...
+  </van-loading>
+  <view class="yxt-lite-tabbar">
+    <navigator class="yxt-lite-tabbar-item " url="/pages/index/index" open-type="switchTab">
+      <van-icon name="wap-home-o" size="22" />
+      <text>首页</text>
+    </navigator>
+    <navigator class="yxt-lite-tabbar-item " url="/pages/booking/booking" open-type="switchTab">
+      <van-icon name="calendar-o" size="22" />
+      <text>服务</text>
+    </navigator>
+    <navigator class="yxt-lite-tabbar-item active" url="/pages/mine/mine" open-type="switchTab">
+      <van-icon name="user-o" size="22" />
+      <text>我的</text>
+    </navigator>
+  </view>
+</view>

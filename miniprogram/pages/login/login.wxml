@@ -1,0 +1,64 @@
+<view class="login-page">
+  <view class="page-pattern"></view>
+
+  <view class="brand-section">
+    <brand-image custom-class="brand-logo" />
+    <view class="brand-copy">
+      <text class="clinic-name">山东营生科贸有限公司</text>
+      <text class="slogan">企业服务预约</text>
+    </view>
+  </view>
+
+  <view class="login-card">
+    <view class="card-head">
+      <text class="eyebrow">微信安全授权</text>
+      <text class="login-title">手机号快捷登录</text>
+      <text class="login-desc">授权手机号后自动建立用户档案，用于预约确认和到店核销。</text>
+    </view>
+
+    <view class="flow-panel">
+      <view class="flow-item">
+        <view class="flow-icon">1</view>
+        <view class="flow-copy">
+          <text class="flow-title">授权手机号</text>
+          <text class="flow-desc">无需填写账号密码</text>
+        </view>
+      </view>
+      <view class="flow-item">
+        <view class="flow-icon">2</view>
+        <view class="flow-copy">
+          <text class="flow-title">自动建档</text>
+          <text class="flow-desc">用于确认和管理本人预约</text>
+        </view>
+      </view>
+      <view class="flow-item">
+        <view class="flow-icon">3</view>
+        <view class="flow-copy">
+          <text class="flow-title">身份识别</text>
+          <text class="flow-desc">工作人员手机号自动进入工作台</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="agreement" bindtap="onAgreementTap">
+      <van-checkbox value="{{agreed}}" shape="square" />
+      <view class="agreement-label">
+        <text>我已阅读并同意</text>
+        <text class="link" catchtap="showAgreement">《用户协议》</text>
+        <text>和</text>
+        <text class="link" catchtap="showPrivacy">《隐私政策》</text>
+      </view>
+    </view>
+
+    <button class="phone-login-btn" open-type="getPhoneNumber" bindgetphonenumber="onGetPhoneNumber"
+      loading="{{loginLoading}}" disabled="{{!agreed}}">
+      {{loginLoading ? '正在登录...' : '微信手机号登录'}}
+    </button>
+
+    <text class="login-tip">头像和昵称可在“我的资料”中选填，不影响预约。</text>
+  </view>
+
+  <view class="footer">
+    <text class="footer-text">营生科贸 · 信息服务与系统集成</text>
+  </view>
+</view>

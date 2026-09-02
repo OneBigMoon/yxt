@@ -1,0 +1,21 @@
+{
+  "desc": "公开服务页面允许被微信索引，工作人员与扫码确认页面禁止索引",
+  "rules": [
+    {
+      "action": "disallow",
+      "page": "pages/scan-confirm/scan-confirm"
+    },
+    {
+      "action": "disallow",
+      "page": "pages/tech-home/tech-home"
+    },
+    {
+      "action": "disallow",
+      "page": "pages/tech-records/tech-records"
+    },
+    {
+      "action": "allow",
+      "page": "*"
+    }
+  ]
+}

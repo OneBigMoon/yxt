@@ -1,0 +1,76 @@
+<view class="mine-page yxt-page">
+  <brand-image custom-class="page-logo-watermark page-logo-watermark--top" watermark="{{true}}" />
+  <brand-image custom-class="page-logo-watermark page-logo-watermark--bottom" watermark="{{true}}" />
+
+  <view class="member-titlebar">
+    <view class="member-title-left">
+      <brand-image custom-class="member-title-logo" />
+      <text class="member-title">个人中心</text>
+    </view>
+  </view>
+
+  <view class="member-card" bindtap="handleUserTap">
+    <view class="member-copy">
+      <text class="member-phone">{{isLoggedIn ? (maskedPhone || userDisplayName) : '微信手机号登录'}}</text>
+      <text class="member-status">{{isLoggedIn ? '点击此卡进入个人资料' : '登录后自动建立用户档案'}}</text>
+    </view>
+    <view class="member-logo-action">
+      <brand-image custom-class="member-logo-mark" />
+    </view>
+    <van-icon class="member-card-arrow" name="arrow" size="18" color="rgba(255,253,248,0.78)" />
+  </view>
+
+  <view class="profile-menu">
+    <view class="menu-row menu-row--soft" bindtap="goMyAppointments">
+      <view class="menu-left">
+        <view class="menu-icon"><van-icon name="calendar-o" size="19" color="#5a7846" /></view>
+        <view class="menu-stack">
+          <text class="menu-title">我的预约</text>
+          <text class="menu-desc">待到店、已完成、已取消</text>
+        </view>
+      </view>
+      <view class="menu-right">
+        <van-icon name="arrow" size="14" color="#d8d1c7" />
+      </view>
+    </view>
+  </view>
+
+  <view class="facility-section" wx:if="{{facilities.length > 0}}">
+    <view class="facility-head">
+      <view class="title-left">
+        <view class="title-mark"></view>
+        <text class="facility-title">本店设施</text>
+      </view>
+      <text class="facility-more">服务设施</text>
+    </view>
+    <view class="facility-grid">
+      <view class="facility-chip" wx:for="{{facilities}}" wx:key="name">
+        <van-icon name="{{item.icon}}" size="18" color="#5a7846" />
+        <text>{{item.name}}</text>
+      </view>
+    </view>
+  </view>
+
+
+  <view class="legal-menu">
+    <view class="menu-row" bindtap="showUserAgreement">
+      <view class="menu-left">
+        <view class="menu-icon"><van-icon name="records-o" size="19" color="#5a7846" /></view>
+        <text class="menu-title">用户协议</text>
+      </view>
+      <view class="menu-right"><van-icon name="arrow" size="14" color="#d8d1c7" /></view>
+    </view>
+    <view class="menu-row" bindtap="showPrivacyContract">
+      <view class="menu-left">
+        <view class="menu-icon"><van-icon name="shield-o" size="19" color="#5a7846" /></view>
+        <text class="menu-title">隐私保护指引</text>
+      </view>
+      <view class="menu-right"><van-icon name="arrow" size="14" color="#d8d1c7" /></view>
+    </view>
+  </view>
+
+  <view class="logout-section" wx:if="{{isLoggedIn}}">
+    <button class="logout-btn" bindtap="handleLogout">退出登录</button>
+    <button class="delete-account-btn" bindtap="handleDeleteAccount">注销账号</button>
+  </view>
+</view>

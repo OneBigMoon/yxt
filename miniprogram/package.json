@@ -1,0 +1,8 @@
+{
+  "name": "business-consulting-miniprogram",
+  "version": "1.0.0",
+  "description": "营生预约小程序",
+  "dependencies": {
+    "@vant/weapp": "^1.11.0"
+  }
+}
